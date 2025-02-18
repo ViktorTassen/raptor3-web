@@ -8,7 +8,9 @@ interface Vehicle {
 }
 
 interface MarketValue {
-  price: string;
+  provider: string,
+  listings: any
+  price: any;
 }
 
 interface AutoDevListing {
