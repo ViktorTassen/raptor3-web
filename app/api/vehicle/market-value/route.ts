@@ -128,7 +128,7 @@ async function getAutoDevMarketValue({
   }
 
   if (data.records[0].make != make) {
-    return
+    return null;
   }
 
   // Calculate average price
