@@ -1,115 +1,91 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const ALLOWED_ORIGIN = 'chrome-extension://hppldficdejbndpbkdipddeaaeeobfck'; // Replace with your actual extension ID
+// Constants
+const ALLOWED_ORIGINS = [
+  'chrome-extension://hppldficdejbndpbkdipddeaaeeobfck', // Production
+  'chrome-extension://your-dev-extension-id', // Development
+];
 
+const API_CONFIG = {
+  AUTO_DEV: {
+    ENABLED: true, // Switcher for Auto.dev API
+    BASE_URL: 'https://auto.dev/api',
+    KEY: process.env.DEV_AUTO_API_KEY
+  },
+  VIN_AUDIT: {
+    KEY: process.env.VINAUDIT_API_KEY
+  }
+};
 
+// Types
 interface Vehicle {
   year: string;
   make: string;
   model: string;
-  trim?: string[];
+  trim?: string;
 }
 
 interface MarketValue {
-  provider: string,
-  listings: any
-  price: any;
-}
-
-interface AutoDevListing {
+  provider: 'records' | 'aud';
+  records: any;
   price: string;
-  // Add other fields as needed
 }
 
-interface AutoDevResponse {
-  listings: AutoDevListing[];
+// Helper Functions
+function createCorsHeaders(origin: string) {
+  return {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+  };
 }
 
-interface VinAuditPrices {
-  average: string;
-  below: string;
+function createResponse(data: any, status: number, origin: string) {
+  return new NextResponse(JSON.stringify(data), {
+    status,
+    headers: createCorsHeaders(origin)
+  });
 }
 
-interface VinAuditResponse {
-  success: boolean;
-  prices: VinAuditPrices;
-}
+function formatVinAuditId(vehicle: Vehicle): string {
+  const { year, make, model, trim } = vehicle;
 
-export async function GET(request: NextRequest): Promise<NextResponse> {
+  // Helper function to clean and format string parts
+  const formatPart = (part: string) => {
+    return part
+      .toLowerCase()
+      // Remove any existing spaces or underscores
+      .replace(/[\s_]+/g, '')
+      // Replace spaces and underscores with nothing (remove them)
+      .replace(/[\s_]/g, '')
+      // Replace multiple hyphens with a single hyphen
+      .replace(/-+/g, '-')
+      // Clean up any remaining special characters
+      .replace(/[^a-z0-9-]/g, '');
+  };
 
+  // Format model: remove spaces (2 series -> 2series)
+  const formattedModel = formatPart(model);
 
-  try {
-    const DEV_AUTO_API_KEY = process.env.DEV_AUTO_API_KEY;
-    const VINAUDIT_API_KEY = process.env.VINAUDIT_API_KEY;
-    const AUTO_API_BASE_URL = 'https://auto.dev/api';
+  // Format trim: replace underscores with hyphens (premium_plus -> premium-plus)
+  const formattedTrim = trim ? 
+    trim
+      .toLowerCase()
+      .replace(/[\s_]+/g, '-')
+      .replace(/-+/g, '-')
+      .trim() : 
+    '';
 
-    if (!DEV_AUTO_API_KEY || !VINAUDIT_API_KEY) {
-      throw new Error('Missing API keys in environment variables');
-    }
+  // Combine parts
+  const parts = [
+    year,
+    formatPart(make),
+    formattedModel,
+    formattedTrim
+  ].filter(Boolean); // Remove empty strings
 
-    // Get query parameters
-    const searchParams = request.nextUrl.searchParams;
-    const year = searchParams.get('year');
-    const make = searchParams.get('make');
-    const model = searchParams.get('model');
-    const trim = searchParams.get('trim');
-
-    if (!year || !make || !model) {
-      return NextResponse.json(
-        { error: 'Missing required parameters' },
-        { status: 400 }
-      );
-    }
-
-    // Try Auto.dev API first
-    try {
-      const marketValue = await getAutoDevMarketValue({
-        year,
-        make,
-        model,
-        trim,
-        apiKey: DEV_AUTO_API_KEY,
-        baseUrl: AUTO_API_BASE_URL
-      });
-      
-      if (marketValue) {
-        return NextResponse.json(marketValue);
-      }
-    } catch (error) {
-      console.error('[Server] Auto.dev API error:', error);
-      // Continue to fallback if Auto.dev fails
-    }
-
-    // Fallback to VinAudit API
-    try {
-      const marketValue = await getVinAuditMarketValue({
-        year,
-        make,
-        model,
-        trim, // VinAudit only accepts single trim
-        apiKey: VINAUDIT_API_KEY
-      });
-      
-      if (marketValue) {
-        return NextResponse.json(marketValue);
-      }
-    } catch (error) {
-      console.error('[Server] VinAudit API error:', error);
-      throw error; // Re-throw if both APIs fail
-    }
-
-    return NextResponse.json(
-      { error: 'No market value data available' },
-      { status: 404 }
-    );
-
-  } catch (error) {
-    console.error('[Server] Error fetching market value:', error);
-    return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Unknown error' },
-      { status: 500 }
-    );
-  }
+  return parts.join('_');
 }
 
 async function getAutoDevMarketValue({
@@ -119,62 +95,56 @@ async function getAutoDevMarketValue({
   trim,
   apiKey,
   baseUrl
-}: {
-  year: string;
-  make: string;
-  model: string;
-  trim?: string[];
-  apiKey: string;
-  baseUrl: string;
-}): Promise<MarketValue | null> {
+}: Vehicle & { apiKey: string; baseUrl: string }): Promise<MarketValue | null> {
+  // Build search parameters
   const searchParams = new URLSearchParams({
     apikey: apiKey,
     year_min: year,
     year_max: year,
-    make: make,
-    model: model
+    make,
+    model,
+    sort_filter: 'price:asc'
   });
 
   if (trim) {
-    searchParams.append('trim[]', trim)
+    searchParams.append('trim[]', trim);
   }
 
-  console.log('url autodev:', `${baseUrl}/listings?${searchParams.toString()}&sort_filter=price:asc`)
+  const url = `${baseUrl}/listings?${searchParams.toString()}`;
+  console.log('Auto.dev URL:', url);
 
-  const response = await fetch(`${baseUrl}/listings?${searchParams.toString()}&sort_filter=price:asc`, {
-    headers: {
-      'Accept': 'application/json'
-    }
+  const response = await fetch(url, {
+    headers: { 'Accept': 'application/json' }
   });
 
   if (!response.ok) {
-    throw new Error(`Auto.dev API error! status: ${response.status}`);
+    throw new Error(`Auto.dev API error: ${response.status}`);
   }
 
-  const data = await response.json() as AutoDevResponse;
+  const data = await response.json();
   
   if (!data?.records?.length) {
     return null;
   }
-  console.log("data.records.length", data.records.length)
 
-  // Calculate prices from listings
+  if (data.records[0].make != make) {
+    return
+  }
+
+  // Calculate average price
   const prices = data.records
-    .map((record: AutoDevListing) => parseInt(record.price.replace(/[^0-9]/g, '')))
-    .filter((price: number) => !isNaN(price))
-    .sort((a, b) => a - b);
+    .map(record => parseInt(record.price.replace(/[^0-9]/g, '')))
+    .filter(price => !isNaN(price));
 
-  console.log("prices", prices)
   if (prices.length === 0) {
     return null;
   }
 
   const averagePrice = (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(0);
-  console.log('averagePrice', averagePrice)
 
   return {
-    provider: "records",
-    listings: data?.records,
+    provider: 'records',
+    records: data.records,
     price: averagePrice
   };
 }
@@ -185,28 +155,18 @@ async function getVinAuditMarketValue({
   model,
   trim,
   apiKey
-}: {
-  year: string;
-  make: string;
-  model: string;
-  trim?: string;
-  apiKey: string;
-}): Promise<MarketValue | null> {
-  // Create ID string
-  const id = [
-    year,
-    make.toLowerCase().replace(/\s/g, '_'),
-    model.toLowerCase().replace(/\s/g, '_').replace(/-/g, ''),
-    trim ? trim.toLowerCase().replace(/\s/g, '_').replace(/-/g, '') : ''
-  ].filter(Boolean).join('_');
+}: Vehicle & { apiKey: string }): Promise<MarketValue | null> {
+  const id = formatVinAuditId({ year, make, model, trim });
+  console.log('VinAudit ID:', id);
 
   const url = `https://marketvalues.vinaudit.com/getmarketvalue.php?key=${apiKey}&id=${id}`;
-  console.log('url vinaudit:', url)
+  console.log('VinAudit URL:', url);
+
   const response = await fetch(url);
-  const data = await response.json() as VinAuditResponse;
+  const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(`VinAudit API error! status: ${response.status}`);
+    throw new Error(`VinAudit API error: ${response.status}`);
   }
 
   if (!data.success || !data.prices) {
@@ -214,23 +174,116 @@ async function getVinAuditMarketValue({
   }
 
   const averagePrice = ((parseInt(data.prices.average) + parseInt(data.prices.below)) / 2).toFixed(0);
+  
   return {
-    provider: "aud",
-    listings: null,
+    provider: 'aud',
+    records: null,
     price: averagePrice
   };
 }
 
+// Main API Handler
+export async function GET(request: NextRequest): Promise<NextResponse> {
+  const origin = request.headers.get('origin');
+  
+  // Validate origin
+  if (!origin || !ALLOWED_ORIGINS.includes(origin)) {
+    return createResponse({ error: 'Forbidden' }, 403, origin);
+  }
 
+  try {
+    // Validate API keys
+    if (!API_CONFIG.AUTO_DEV.KEY || !API_CONFIG.VIN_AUDIT.KEY) {
+      throw new Error('Missing API keys in environment variables');
+    }
+
+    // Get and validate query parameters
+    const searchParams = request.nextUrl.searchParams;
+    const year = searchParams.get('year');
+    const make = searchParams.get('make');
+    const model = searchParams.get('model');
+    const trim = searchParams.get('trim');
+
+    if (!year || !make || !model) {
+      return createResponse({ error: 'Missing required parameters' }, 400, origin);
+    }
+
+    // Try Auto.dev API only if enabled
+    if (API_CONFIG.AUTO_DEV.ENABLED) {
+      try {
+        const marketValue = await getAutoDevMarketValue({
+          year,
+          make,
+          model,
+          trim,
+          apiKey: API_CONFIG.AUTO_DEV.KEY,
+          baseUrl: API_CONFIG.AUTO_DEV.BASE_URL
+        });
+        
+        if (marketValue) {
+          return createResponse(marketValue, 200, origin);
+        }
+
+        // Try without trim if initial attempt fails
+        if (trim) {
+          const marketValueWithoutTrim = await getAutoDevMarketValue({
+            year,
+            make,
+            model,
+            apiKey: API_CONFIG.AUTO_DEV.KEY,
+            baseUrl: API_CONFIG.AUTO_DEV.BASE_URL
+          });
+
+          if (marketValueWithoutTrim) {
+            return createResponse(marketValueWithoutTrim, 200, origin);
+          }
+        }
+      } catch (error) {
+        console.error('[Server] Auto.dev API error:', error);
+      }
+    }
+
+    // Use VinAudit API
+    try {
+      const marketValue = await getVinAuditMarketValue({
+        year,
+        make,
+        model,
+        trim,
+        apiKey: API_CONFIG.VIN_AUDIT.KEY
+      });
+      
+      if (marketValue) {
+        return createResponse(marketValue, 200, origin);
+      }
+    } catch (error) {
+      console.error('[Server] VinAudit API error:', error);
+      throw error;
+    }
+
+    return createResponse({ error: 'No market value data available' }, 404, origin);
+  } catch (error) {
+    console.error('[Server] Error fetching market value:', error);
+    return createResponse(
+      { error: error instanceof Error ? error.message : 'Unknown error' },
+      500,
+      origin
+    );
+  }
+}
 
 export async function OPTIONS(request: NextRequest) {
   const origin = request.headers.get('origin');
-
-  if (origin !== ALLOWED_ORIGIN) {
-    return NextResponse.json({ error: 'CORS not allowed' }, { status: 403 });
+  
+  if (!origin || !ALLOWED_ORIGINS.includes(origin)) {
+    return new NextResponse(null, { status: 403 });
   }
 
-  const response = new NextResponse(null, { status: 200 });
-
-  return response;
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      ...createCorsHeaders(origin),
+      'Access-Control-Max-Age': '86400' // 24 hours cache for preflight requests
+    }
+  });
 }
