@@ -49,16 +49,16 @@ interface VinAuditResponse {
 }
 
 // Helper Functions
-function createCorsHeaders(origin: string) {
+function createCorsHeaders(origin: string | null) {
   return {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Origin': origin || '*',
     'Access-Control-Allow-Methods': 'GET, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization'
   };
 }
 
-function createResponse(data: unknown, status: number, origin: string) {
+function createResponse(data: unknown, status: number, origin: string | null) {
   return new NextResponse(JSON.stringify(data), {
     status,
     headers: createCorsHeaders(origin)
