@@ -139,7 +139,7 @@ async function getAutoDevMarketValue({
   // Calculate average price
   const prices = data.records
     .map((record: AutoDevRecord) => parseInt(record.price.replace(/[^0-9]/g, '')))
-    .filter(price => !isNaN(price));
+    .filter((price: number) => !isNaN(price));
 
   if (prices.length === 0) {
     return null;
