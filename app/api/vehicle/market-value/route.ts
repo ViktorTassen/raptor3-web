@@ -22,7 +22,7 @@ interface Vehicle {
   year: string;
   make: string;
   model: string;
-  trim?: string;
+  trim?: string | null;
 }
 
 interface MarketValue {
