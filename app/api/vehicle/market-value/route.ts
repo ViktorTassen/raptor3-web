@@ -161,6 +161,8 @@ async function getAutoDevMarketValue({
   const averagePrice = (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(0);
 
   return {
+    provider: "listings",
+    listings: data?.listings,
     price: averagePrice
   };
 }
@@ -200,6 +202,8 @@ async function getVinAuditMarketValue({
 
   const averagePrice = ((parseInt(data.prices.average) + parseInt(data.prices.below)) / 2).toFixed(0);
   return {
+    provider: "aud",
+    listings: null,
     price: averagePrice
   };
 }
