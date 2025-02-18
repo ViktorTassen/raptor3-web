@@ -27,13 +27,25 @@ interface Vehicle {
 
 interface MarketValue {
   provider: 'records' | 'aud';
-  records: any;
+  records: AutoDevRecord[] | null;
   price: string;
 }
 
 interface AutoDevRecord {
   make: string;
   price: string;
+}
+
+interface AutoDevResponse {
+  records: AutoDevRecord[];
+}
+
+interface VinAuditResponse {
+  success: boolean;
+  prices?: {
+    average: string;
+    below: string;
+  };
 }
 
 // Helper Functions
@@ -46,7 +58,7 @@ function createCorsHeaders(origin: string) {
   };
 }
 
-function createResponse(data: any, status: number, origin: string) {
+function createResponse(data: unknown, status: number, origin: string) {
   return new NextResponse(JSON.stringify(data), {
     status,
     headers: createCorsHeaders(origin)
@@ -126,13 +138,13 @@ async function getAutoDevMarketValue({
     throw new Error(`Auto.dev API error: ${response.status}`);
   }
 
-  const data = await response.json();
+  const data = await response.json() as AutoDevResponse;
   
   if (!data?.records?.length) {
     return null;
   }
 
-  if (data.records[0].make != make) {
+  if (data.records[0].make !== make) {
     return null;
   }
 
@@ -145,7 +157,7 @@ async function getAutoDevMarketValue({
     return null;
   }
 
-  const averagePrice = (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(0);
+  const averagePrice = (prices.reduce((a: number, b: number) => a + b, 0) / prices.length).toFixed(0);
 
   return {
     provider: 'records',
@@ -168,7 +180,7 @@ async function getVinAuditMarketValue({
   console.log('VinAudit URL:', url);
 
   const response = await fetch(url);
-  const data = await response.json();
+  const data = await response.json() as VinAuditResponse;
 
   if (!response.ok) {
     throw new Error(`VinAudit API error: ${response.status}`);
