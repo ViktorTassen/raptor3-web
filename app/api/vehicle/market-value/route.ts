@@ -8,9 +8,7 @@ interface Vehicle {
 }
 
 interface MarketValue {
-  below: string;
-  average: string;
-  above: string;
+  price: string;
 }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -18,6 +16,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const DEV_AUTO_API_KEY = process.env.DEV_AUTO_API_KEY;
     const VINAUDIT_API_KEY = process.env.VINAUDIT_API_KEY;
     const AUTO_API_BASE_URL = 'https://auto.dev/api';
+
+    if (!DEV_AUTO_API_KEY || !VINAUDIT_API_KEY) {
+      throw new Error('Missing API keys in environment variables');
+    }
 
     // Get query parameters
     const searchParams = request.nextUrl.searchParams;
@@ -137,7 +139,7 @@ async function getAutoDevMarketValue({
     return null;
   }
 
-  const averagePrice = (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(0)
+  const averagePrice = (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(0);
 
   return {
     price: averagePrice
@@ -177,7 +179,7 @@ async function getVinAuditMarketValue({
     return null;
   }
 
-  const averagePrice  = ((parseInt(data.prices.average) + parseInt(data.prices.below)) / 2).toFixed(0)
+  const averagePrice = ((parseInt(data.prices.average) + parseInt(data.prices.below)) / 2).toFixed(0);
   return {
     price: averagePrice
   };
