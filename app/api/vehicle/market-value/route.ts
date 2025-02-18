@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Constants
 const ALLOWED_ORIGINS = [
-  'chrome-extension://hppldficdejbndpbkdipddeaaeeobfck', // Production
-  'chrome-extension://your-dev-extension-id', // Development
+  'chrome-extension://hppldficdejbndpbkdipddeaaeeobfck', // Development
+  'chrome-extension://kcekmgedcdnjjfcklokfidemgjdanjpp', // Production 
 ];
 
 const API_CONFIG = {
