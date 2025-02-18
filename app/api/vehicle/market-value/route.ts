@@ -134,7 +134,7 @@ async function getAutoDevMarketValue({
     trim.forEach(t => searchParams.append('trim[]', t));
   }
 
-  const response = await fetch(`${baseUrl}/listings?${searchParams}&sort_filter=price:asc`, {
+  const response = await fetch(`${baseUrl}/listings?${searchParams.toString()}&sort_filter=price:asc`, {
     headers: {
       'Accept': 'application/json'
     }
