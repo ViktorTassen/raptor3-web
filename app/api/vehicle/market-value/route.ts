@@ -31,6 +31,11 @@ interface MarketValue {
   price: string;
 }
 
+interface AutoDevRecord {
+  make: string;
+  price: string;
+}
+
 // Helper Functions
 function createCorsHeaders(origin: string) {
   return {
@@ -133,7 +138,7 @@ async function getAutoDevMarketValue({
 
   // Calculate average price
   const prices = data.records
-    .map(record => parseInt(record.price.replace(/[^0-9]/g, '')))
+    .map((record: AutoDevRecord) => parseInt(record.price.replace(/[^0-9]/g, '')))
     .filter(price => !isNaN(price));
 
   if (prices.length === 0) {
