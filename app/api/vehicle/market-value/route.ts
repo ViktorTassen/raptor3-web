@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const ALLOWED_ORIGIN = 'chrome-extension://hppldficdejbndpbkdipddeaaeeobfck'; // Replace with your actual extension ID
+
+
 interface Vehicle {
   year: string;
   make: string;
@@ -33,6 +36,8 @@ interface VinAuditResponse {
 }
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
+
+
   try {
     const DEV_AUTO_API_KEY = process.env.DEV_AUTO_API_KEY;
     const VINAUDIT_API_KEY = process.env.VINAUDIT_API_KEY;
@@ -47,7 +52,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     const year = searchParams.get('year');
     const make = searchParams.get('make');
     const model = searchParams.get('model');
-    const trim = searchParams.getAll('trim');
+    const trim = searchParams.get('trim');
 
     if (!year || !make || !model) {
       return NextResponse.json(
@@ -81,7 +86,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         year,
         make,
         model,
-        trim: trim[0], // VinAudit only accepts single trim
+        trim, // VinAudit only accepts single trim
         apiKey: VINAUDIT_API_KEY
       });
       
@@ -130,9 +135,11 @@ async function getAutoDevMarketValue({
     model: model
   });
 
-  if (trim?.length) {
-    trim.forEach(t => searchParams.append('trim[]', t));
+  if (trim) {
+    searchParams.append('trim[]', trim)
   }
+
+  console.log('url autodev:', `${baseUrl}/listings?${searchParams.toString()}&sort_filter=price:asc`)
 
   const response = await fetch(`${baseUrl}/listings?${searchParams.toString()}&sort_filter=price:asc`, {
     headers: {
@@ -146,25 +153,28 @@ async function getAutoDevMarketValue({
 
   const data = await response.json() as AutoDevResponse;
   
-  if (!data?.listings?.length) {
+  if (!data?.records?.length) {
     return null;
   }
+  console.log("data.records.length", data.records.length)
 
   // Calculate prices from listings
-  const prices = data.listings
-    .map((listing: AutoDevListing) => parseInt(listing.price.replace(/[^0-9]/g, '')))
+  const prices = data.records
+    .map((record: AutoDevListing) => parseInt(record.price.replace(/[^0-9]/g, '')))
     .filter((price: number) => !isNaN(price))
     .sort((a, b) => a - b);
 
+  console.log("prices", prices)
   if (prices.length === 0) {
     return null;
   }
 
   const averagePrice = (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(0);
+  console.log('averagePrice', averagePrice)
 
   return {
-    provider: "listings",
-    listings: data?.listings,
+    provider: "records",
+    listings: data?.records,
     price: averagePrice
   };
 }
@@ -191,6 +201,7 @@ async function getVinAuditMarketValue({
   ].filter(Boolean).join('_');
 
   const url = `https://marketvalues.vinaudit.com/getmarketvalue.php?key=${apiKey}&id=${id}`;
+  console.log('url vinaudit:', url)
   const response = await fetch(url);
   const data = await response.json() as VinAuditResponse;
 
@@ -208,4 +219,18 @@ async function getVinAuditMarketValue({
     listings: null,
     price: averagePrice
   };
+}
+
+
+
+export async function OPTIONS(request: NextRequest) {
+  const origin = request.headers.get('origin');
+
+  if (origin !== ALLOWED_ORIGIN) {
+    return NextResponse.json({ error: 'CORS not allowed' }, { status: 403 });
+  }
+
+  const response = new NextResponse(null, { status: 200 });
+
+  return response;
 }
