@@ -11,6 +11,25 @@ interface MarketValue {
   price: string;
 }
 
+interface AutoDevListing {
+  price: string;
+  // Add other fields as needed
+}
+
+interface AutoDevResponse {
+  listings: AutoDevListing[];
+}
+
+interface VinAuditPrices {
+  average: string;
+  below: string;
+}
+
+interface VinAuditResponse {
+  success: boolean;
+  prices: VinAuditPrices;
+}
+
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const DEV_AUTO_API_KEY = process.env.DEV_AUTO_API_KEY;
@@ -123,7 +142,7 @@ async function getAutoDevMarketValue({
     throw new Error(`Auto.dev API error! status: ${response.status}`);
   }
 
-  const data = await response.json();
+  const data = await response.json() as AutoDevResponse;
   
   if (!data?.listings?.length) {
     return null;
@@ -131,8 +150,8 @@ async function getAutoDevMarketValue({
 
   // Calculate prices from listings
   const prices = data.listings
-    .map(listing => parseInt(listing.price.replace(/[^0-9]/g, '')))
-    .filter(price => !isNaN(price))
+    .map((listing: AutoDevListing) => parseInt(listing.price.replace(/[^0-9]/g, '')))
+    .filter((price: number) => !isNaN(price))
     .sort((a, b) => a - b);
 
   if (prices.length === 0) {
@@ -169,7 +188,7 @@ async function getVinAuditMarketValue({
 
   const url = `https://marketvalues.vinaudit.com/getmarketvalue.php?key=${apiKey}&id=${id}`;
   const response = await fetch(url);
-  const data = await response.json();
+  const data = await response.json() as VinAuditResponse;
 
   if (!response.ok) {
     throw new Error(`VinAudit API error! status: ${response.status}`);
