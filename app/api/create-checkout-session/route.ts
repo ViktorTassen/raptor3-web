@@ -14,6 +14,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const body = await request.json();
     const { priceId, email, uid } = body;
 
+
+    priceId = "price_1N9ZQaL5pL8dc9xK0WXXEKY9";
+
     if (!priceId || !email || !uid) {
       return NextResponse.json(
         { error: 'Price ID, email, and UID are required' },
