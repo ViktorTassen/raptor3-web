@@ -12,10 +12,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const body = await request.json();
-    const { priceId, email, uid } = body;
+    const { email, uid } = body;
 
 
-    priceId = "price_1N9ZQaL5pL8dc9xK0WXXEKY9";
+    const priceId = "price_1N9ZQaL5pL8dc9xK0WXXEKY9";
 
     if (!priceId || !email || !uid) {
       return NextResponse.json(
