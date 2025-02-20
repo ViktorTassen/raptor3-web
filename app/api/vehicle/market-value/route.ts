@@ -205,7 +205,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   
   // Validate origin
   if (!origin || !ALLOWED_ORIGINS.includes(origin)) {
-    return createResponse({ error: 'Forbidden' }, 403, origin);
+    return createResponse({ error: 'Forbidden', origin: origin  }, 403, origin);
   }
 
   try {
