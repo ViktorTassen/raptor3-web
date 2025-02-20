@@ -19,6 +19,14 @@ const ALLOWED_ORIGINS = [
   'chrome-extension://kcekmgedcdnjjfcklokfipddemgjdanjpp', // Production 
 ];
 
+if (!process.env.DEV_AUTO_API_KEY) {
+  throw new Error('DEV_AUTO_API_KEY is not defined');
+}
+
+if (!process.env.VINAUDIT_API_KEY) {
+  throw new Error('VINAUDIT_API_KEY is not defined');
+}
+
 const API_CONFIG = {
   AUTO_DEV: {
     ENABLED: true,
@@ -28,7 +36,7 @@ const API_CONFIG = {
   VIN_AUDIT: {
     KEY: process.env.VINAUDIT_API_KEY
   }
-};
+} as const;
 
 // Types
 interface Vehicle {
@@ -238,7 +246,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     // Try Auto.dev API only if enabled
-    if (API_CONFIG.AUTO_DEV.ENABLED) {
+    if (API_CONFIG.AUTO_DEV.ENABLED && API_CONFIG.AUTO_DEV.KEY) {
       try {
         const marketValue = await getAutoDevMarketValue({
           year,
@@ -258,6 +266,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
             year,
             make,
             model,
+            trim: null,
             apiKey: API_CONFIG.AUTO_DEV.KEY,
             baseUrl: API_CONFIG.AUTO_DEV.BASE_URL
           });
@@ -272,21 +281,23 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     }
 
     // Use VinAudit API
-    try {
-      const marketValue = await getVinAuditMarketValue({
-        year,
-        make,
-        model,
-        trim,
-        apiKey: API_CONFIG.VIN_AUDIT.KEY
-      });
-      
-      if (marketValue) {
-        return createResponse(marketValue, 200, origin);
+    if (API_CONFIG.VIN_AUDIT.KEY) {
+      try {
+        const marketValue = await getVinAuditMarketValue({
+          year,
+          make,
+          model,
+          trim,
+          apiKey: API_CONFIG.VIN_AUDIT.KEY
+        });
+        
+        if (marketValue) {
+          return createResponse(marketValue, 200, origin);
+        }
+      } catch (error) {
+        console.error('[Server] VinAudit API error:', error);
+        throw error;
       }
-    } catch (error) {
-      console.error('[Server] VinAudit API error:', error);
-      throw error;
     }
 
     return createResponse({ error: 'No market value data available' }, 404, origin);
