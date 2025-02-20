@@ -1,14 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { headers } from 'next/headers';
+import { getAuth } from 'firebase-admin/auth';
+import { initializeApp, getApps, cert } from 'firebase-admin/app';
 
-// Constants
-const ALLOWED_ORIGINS = [
-  'chrome-extension://hppldficdejbndpbkdipddeaaeeobfck', // Development
-  'chrome-extension://kcekmgedcdnjjfcklokfidemgjdanjpp', // Production 
-];
+// Initialize Firebase Admin if not already initialized
+if (!getApps().length) {
+  initializeApp({
+    credential: cert({
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n')
+    })
+  });
+}
+
 
 const API_CONFIG = {
   AUTO_DEV: {
-    ENABLED: true, // Switcher for Auto.dev API
+    ENABLED: true,
     BASE_URL: 'https://auto.dev/api',
     KEY: process.env.DEV_AUTO_API_KEY
   },
@@ -50,9 +59,11 @@ interface VinAuditResponse {
 
 // Helper Functions
 function createCorsHeaders(origin: string | null) {
+  const allowedOrigin = !origin || ALLOWED_ORIGINS.includes(origin) ? '*' : origin;
+  
   return {
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': origin || '*',
+    'Access-Control-Allow-Origin': allowedOrigin,
     'Access-Control-Allow-Methods': 'GET, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization'
   };
@@ -68,24 +79,16 @@ function createResponse(data: unknown, status: number, origin: string | null) {
 function formatVinAuditId(vehicle: Vehicle): string {
   const { year, make, model, trim } = vehicle;
 
-  // Helper function to clean and format string parts
   const formatPart = (part: string) => {
     return part
       .toLowerCase()
-      // Remove any existing spaces or underscores
       .replace(/[\s_]+/g, '')
-      // Replace spaces and underscores with nothing (remove them)
       .replace(/[\s_]/g, '')
-      // Replace multiple hyphens with a single hyphen
       .replace(/-+/g, '-')
-      // Clean up any remaining special characters
       .replace(/[^a-z0-9-]/g, '');
   };
 
-  // Format model: remove spaces (2 series -> 2series)
   const formattedModel = formatPart(model);
-
-  // Format trim: replace underscores with hyphens (premium_plus -> premium-plus)
   const formattedTrim = trim ? 
     trim
       .toLowerCase()
@@ -94,13 +97,12 @@ function formatVinAuditId(vehicle: Vehicle): string {
       .trim() : 
     '';
 
-  // Combine parts
   const parts = [
     year,
     formatPart(make),
     formattedModel,
     formattedTrim
-  ].filter(Boolean); // Remove empty strings
+  ].filter(Boolean);
 
   return parts.join('_');
 }
@@ -113,7 +115,6 @@ async function getAutoDevMarketValue({
   apiKey,
   baseUrl
 }: Vehicle & { apiKey: string; baseUrl: string }): Promise<MarketValue | null> {
-  // Build search parameters
   const searchParams = new URLSearchParams({
     apikey: apiKey,
     year_min: year,
@@ -148,7 +149,6 @@ async function getAutoDevMarketValue({
     return null;
   }
 
-  // Calculate average price
   const prices = data.records
     .map((record: AutoDevRecord) => parseInt(record.price.replace(/[^0-9]/g, '')))
     .filter((price: number) => !isNaN(price));
@@ -202,16 +202,20 @@ async function getVinAuditMarketValue({
 // Main API Handler
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const origin = request.headers.get('origin');
+  const authHeader = request.headers.get('authorization');
   
-  // Validate origin
-  if (!origin || !ALLOWED_ORIGINS.includes(origin)) {
-    return createResponse({ error: 'Forbidden ' + origin  }, 403, origin);
+
+  // Verify Firebase Auth token
+  if (!authHeader?.startsWith('Bearer ')) {
+    return createResponse({ error: 'Missing authorization token' }, 401, origin);
   }
 
   try {
-    // Validate API keys
-    if (!API_CONFIG.AUTO_DEV.KEY || !API_CONFIG.VIN_AUDIT.KEY) {
-      throw new Error('Missing API keys in environment variables');
+    const idToken = authHeader.split('Bearer ')[1];
+    const decodedToken = await getAuth().verifyIdToken(idToken);
+    
+    if (!decodedToken.uid) {
+      return createResponse({ error: 'Invalid authorization token' }, 401, origin);
     }
 
     // Get and validate query parameters
@@ -241,7 +245,6 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
           return createResponse(marketValue, 200, origin);
         }
 
-        // Try without trim if initial attempt fails
         if (trim) {
           const marketValueWithoutTrim = await getAutoDevMarketValue({
             year,
@@ -280,7 +283,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
     return createResponse({ error: 'No market value data available' }, 404, origin);
   } catch (error) {
-    console.error('[Server] Error fetching market value:', error);
+    console.error('[Server] Error:', error);
     return createResponse(
       { error: error instanceof Error ? error.message : 'Unknown error' },
       500,
@@ -292,7 +295,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 export async function OPTIONS(request: NextRequest) {
   const origin = request.headers.get('origin');
   
-  if (!origin || !ALLOWED_ORIGINS.includes(origin)) {
+  // For Chrome extensions, we'll skip origin validation if origin is null
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
     return new NextResponse(null, { status: 403 });
   }
 
@@ -300,7 +304,7 @@ export async function OPTIONS(request: NextRequest) {
     status: 200,
     headers: {
       ...createCorsHeaders(origin),
-      'Access-Control-Max-Age': '86400' // 24 hours cache for preflight requests
+      'Access-Control-Max-Age': '86400'
     }
   });
 }
