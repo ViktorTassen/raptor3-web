@@ -14,6 +14,10 @@ if (!getApps().length) {
   });
 }
 
+// Constants
+const ALLOWED_ORIGINS = [
+  'chrome-extension://kcekmgedcdnjjfcklokfipddemgjdanjpp', // Production 
+];
 
 const API_CONFIG = {
   AUTO_DEV: {
@@ -204,6 +208,10 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   const origin = request.headers.get('origin');
   const authHeader = request.headers.get('authorization');
   
+  // For Chrome extensions, we'll skip origin validation if origin is null
+  if (origin && !ALLOWED_ORIGINS.includes(origin)) {
+    return createResponse({ error: 'Forbidden' }, 403, origin);
+  }
 
   // Verify Firebase Auth token
   if (!authHeader?.startsWith('Bearer ')) {
