@@ -133,7 +133,7 @@ async function getAutoDevMarketValue({
     year_max: year,
     make,
     model,
-    sort_filter: 'price:asc'
+    // sort_filter: 'price:asc'
   });
 
   if (trim) {
