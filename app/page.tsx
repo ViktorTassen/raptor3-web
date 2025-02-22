@@ -59,7 +59,8 @@ export default function Home() {
                 />
               </div>
               
-              <div className="absolute -right-8 -bottom-8 bg-white rounded-lg shadow-lg p-4 border border-gray-200">
+              {/* Stats cards - Made responsive */}
+              <div className="absolute -right-4 md:-right-8 -bottom-4 md:-bottom-8 bg-white rounded-lg shadow-lg p-4 border border-gray-200 max-w-[200px] transform translate-x-0">
                 <div className="flex items-center gap-3">
                   <BarChart2 className="w-5 h-5 text-[#593CFB]" />
                   <div className="text-left">
@@ -69,7 +70,7 @@ export default function Home() {
                 </div>
               </div>
               
-              <div className="absolute -left-8 top-1/2 bg-white rounded-lg shadow-lg p-4 border border-gray-200">
+              <div className="absolute -left-4 md:-left-8 top-1/2 bg-white rounded-lg shadow-lg p-4 border border-gray-200 max-w-[140px] transform -translate-x-0">
                 <div className="flex items-center gap-3">
                   <TrendingUp className="w-5 h-5 text-[#593CFB]" />
                   <div className="text-left">
@@ -129,7 +130,15 @@ export default function Home() {
                 </div>
                 <div className="p-6">
                   <h3 className="font-medium text-[#202124] mb-2">1. Install Extension</h3>
-                  <p className="text-[#5f6368] text-sm">Add Raptor Explorer to Chrome from the Web Store to get started.</p>
+                  <p className="text-[#5f6368] text-sm mb-4">Add Raptor Explorer to Chrome from the Web Store to get started.</p>
+                  <a
+                    href="https://chrome.google.com/webstore/detail/raptor-explorer"
+                    target="_blank"
+                    className="inline-flex items-center text-[#593CFB] hover:text-[#593CFB]/90 transition-colors gap-1 text-sm"
+                  >
+                    <Chrome className="w-4 h-4" />
+                    Add to Chrome
+                  </a>
                 </div>
               </div>
               
@@ -187,7 +196,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <div className="bg-white p-6 rounded-xl border border-gray-100">
                 <h3 className="font-medium text-[#202124] mb-4">Revenue Metrics</h3>
-                <ul className="space-y-2 text-[#5f6368] text-sm">
+                <ul className="space-y-2 text-[#5f6368] text-sm mb-6">
                   <li>• Monthly revenue trends</li>
                   <li>• Average daily rates</li>
                   <li>• Previous year's earnings</li>
@@ -198,7 +207,7 @@ export default function Home() {
 
               <div className="bg-white p-6 rounded-xl border border-gray-100">
                 <h3 className="font-medium text-[#202124] mb-4">Vehicle Details</h3>
-                <ul className="space-y-2 text-[#5f6368] text-sm">
+                <ul className="space-y-2 text-[#5f6368] text-sm mb-6">
                   <li>• Make, model, and trim</li>
                   <li>• Market value estimates</li>
                   <li>• Days listed on Turo</li>
@@ -209,7 +218,7 @@ export default function Home() {
 
               <div className="bg-white p-6 rounded-xl border border-gray-100">
                 <h3 className="font-medium text-[#202124] mb-4">Host Insights</h3>
-                <ul className="space-y-2 text-[#5f6368] text-sm">
+                <ul className="space-y-2 text-[#5f6368] text-sm mb-6">
                   <li>• Host metrics</li>
                   <li>• Protection plan rates</li>
                   <li>• Instant book locations</li>
@@ -217,6 +226,24 @@ export default function Home() {
                   <li>• Distance allowances</li>
                 </ul>
               </div>
+            </div>
+
+            <div className="flex justify-center gap-4 mt-8">
+              <a
+                href="https://chrome.google.com/webstore/detail/raptor-explorer"
+                target="_blank"
+                className="inline-flex items-center px-6 py-3 bg-[#593CFB] text-white font-medium rounded-lg hover:bg-[#593CFB]/90 transition duration-150 gap-2"
+              >
+                <Chrome className="w-5 h-5" />
+                Add to Chrome
+              </a>
+              <Link
+                href="/instructions"
+                className="inline-flex items-center px-6 py-3 bg-white text-[#593CFB] font-medium rounded-lg hover:bg-[#593CFB]/5 transition duration-150 border border-[#593CFB]/20 gap-2"
+              >
+                <BookOpen className="w-5 h-5" />
+                View Docs
+              </Link>
             </div>
           </div>
 
