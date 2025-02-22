@@ -70,7 +70,7 @@ export default function Terms() {
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold mb-4">6. Intellectual Property</h2>
                             <p className="mb-4">
-                                Raptor Explorer and its original content, features, and functionality are owned by Tasiev LLC and are protected by international copyright, trademark, and other intellectual property laws.
+                                Raptor Explorer and its original content, features, and functionality are owned by West Wanted LLC and are protected by international copyright, trademark, and other intellectual property laws.
                             </p>
                         </section>
 
@@ -84,7 +84,7 @@ export default function Terms() {
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold mb-4">8. Limitation of Liability</h2>
                             <p className="mb-4">
-                                Raptor Explorer and Tasiev LLC shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the service.
+                                Raptor Explorer and West Wanted LLC shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the service.
                             </p>
                         </section>
 

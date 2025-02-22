@@ -113,7 +113,7 @@ export default function Instructions() {
 
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-8 text-sm">
                   <p className="text-gray-600">
-                    Tasiev LLC d/b/a Raptor Explorer is not affiliated with Turo Inc. The name "Turo" is a registered 
+                    West Wanted LLC d/b/a Raptor Explorer is not affiliated with Turo Inc. The name "Turo" is a registered 
                     trademark of Turo Inc. Use of this registered trademark is only used as necessary to identify the 
                     products and services referenced and does not imply or suggest, nor is it intended to imply or suggest, 
                     any affiliation, endorsement, partnership, or business relationship with Turo Inc.
