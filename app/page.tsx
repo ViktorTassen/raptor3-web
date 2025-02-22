@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Chrome, BarChart2, Car, Zap, Crown, DollarSign, TrendingUp, Search, Shield, CreditCard, CheckCircle } from "lucide-react";
+import { Chrome, BarChart2, Car, Zap, Crown, DollarSign, TrendingUp, Search, Shield, CreditCard, CheckCircle, BookOpen } from "lucide-react";
 import Header from "./components/Header";
 import { firebaseApp } from './firebase';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -36,23 +37,26 @@ export default function Home() {
                 <Chrome className="w-5 h-5" />
                 Add to Chrome
               </a>
-              <a
+              <Link
                 href="/instructions"
-                className="inline-flex items-center px-6 py-3 bg-white text-[#593CFB] font-medium rounded-lg hover:bg-[#593CFB]/5 transition duration-150 border border-[#593CFB]/20"
+                className="inline-flex items-center px-6 py-3 bg-white text-[#593CFB] font-medium rounded-lg hover:bg-[#593CFB]/5 transition duration-150 border border-[#593CFB]/20 gap-2"
               >
+                <BookOpen className="w-5 h-5" />
                 View Docs
-              </a>
+              </Link>
             </div>
-
           </div>
 
           {/* Main Screenshot */}
           <div className="flex justify-center mb-24">
             <div className="relative w-full max-w-4xl">
               <div className="aspect-[16/9] bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200">
-                <div className="w-full h-full bg-gray-50 flex items-center justify-center">
-                  <p className="text-gray-400">Analytics Dashboard</p>
-                </div>
+                <Image
+                  src="/main-screenshot.png"
+                  alt="Raptor Explorer Analytics Dashboard"
+                  fill
+                  priority
+                />
               </div>
               
               <div className="absolute -right-8 -bottom-8 bg-white rounded-lg shadow-lg p-4 border border-gray-200">
@@ -86,31 +90,55 @@ export default function Home() {
               <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                 <DollarSign className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
                 <h3 className="font-medium text-[#202124] mb-2">Revenue Tracking</h3>
-                <p className="text-[#5f6368] text-sm">See how much you can make with different vehicles on Turo</p>
+                <p className="text-[#5f6368] text-sm mb-4">See how much you can make with different vehicles on Turo</p>
+                <Link
+                  href="/instructions#revenue-tracking"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  Learn more <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
               
               <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                 <Search className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
                 <h3 className="font-medium text-[#202124] mb-2">Market Research</h3>
-                <p className="text-[#5f6368] text-sm">Find the most rented cars in your market</p>
+                <p className="text-[#5f6368] text-sm mb-4">Find the most rented cars in your market</p>
+                <Link
+                  href="/instructions#market-research"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  Learn more <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
               
               <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                 <TrendingUp className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
                 <h3 className="font-medium text-[#202124] mb-2">ROI Analysis</h3>
-                <p className="text-[#5f6368] text-sm">Calculate potential returns before investing</p>
+                <p className="text-[#5f6368] text-sm mb-4">Calculate potential returns before investing</p>
+                <Link
+                  href="/instructions#roi-analysis"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  Learn more <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
               
               <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                 <BarChart2 className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
                 <h3 className="font-medium text-[#202124] mb-2">Host Tools</h3>
-                <p className="text-[#5f6368] text-sm">Essential analytics for Turo business growth</p>
+                <p className="text-[#5f6368] text-sm mb-4">Essential analytics for Turo business growth</p>
+                <Link
+                  href="/instructions#host-tools"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  Learn more <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
             </div>
           </div>
 
-        {/* Data Collection Steps */}
-        <div className="mb-24">
+          {/* Data Collection Steps */}
+          <div className="mb-24">
             <h2 className="text-center text-3xl font-medium text-[#202124] mb-12">
               How to Get Started
             </h2>
@@ -120,7 +148,13 @@ export default function Home() {
                   <p className="text-gray-400 text-sm">Chrome Web Store Installation</p>
                 </div>
                 <h3 className="font-medium text-[#202124] mb-2">1. Install Extension</h3>
-                <p className="text-[#5f6368] text-sm">Add Raptor Explorer to Chrome from the Web Store to get started.</p>
+                <p className="text-[#5f6368] text-sm mb-4">Add Raptor Explorer to Chrome from the Web Store to get started.</p>
+                <Link
+                  href="/instructions#installation"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  View instructions <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
               
               <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
@@ -128,7 +162,13 @@ export default function Home() {
                   <p className="text-gray-400 text-sm">Turo Search Interface</p>
                 </div>
                 <h3 className="font-medium text-[#202124] mb-2">2. Search Vehicles</h3>
-                <p className="text-[#5f6368] text-sm">Browse Turo's map to collect vehicle data from your target area. Our extension automatically captures listings as you explore.</p>
+                <p className="text-[#5f6368] text-sm mb-4">Browse Turo's map to collect vehicle data from your target area. Our extension automatically captures listings as you explore.</p>
+                <Link
+                  href="/instructions#step1"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  View instructions <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
               
               <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
@@ -136,7 +176,13 @@ export default function Home() {
                   <p className="text-gray-400 text-sm">Data Enrichment Process</p>
                 </div>
                 <h3 className="font-medium text-[#202124] mb-2">3. Enrich Data</h3>
-                <p className="text-[#5f6368] text-sm">Click "Enrich Data" to gather detailed metrics including revenue history, utilization rates, and market values for each vehicle.</p>
+                <p className="text-[#5f6368] text-sm mb-4">Click "Enrich Data" to gather detailed metrics including revenue history, utilization rates, and market values for each vehicle.</p>
+                <Link
+                  href="/instructions#step5"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  View instructions <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
               
               <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
@@ -144,11 +190,16 @@ export default function Home() {
                   <p className="text-gray-400 text-sm">Analytics Dashboard</p>
                 </div>
                 <h3 className="font-medium text-[#202124] mb-2">4. Analyze & Export</h3>
-                <p className="text-[#5f6368] text-sm">Review insights in our interactive table or export to CSV for deeper analysis and business planning.</p>
+                <p className="text-[#5f6368] text-sm mb-4">Review insights in our interactive table or export to CSV for deeper analysis and business planning.</p>
+                <Link
+                  href="/instructions#step7"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  View instructions <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
             </div>
           </div>
-
 
           {/* Table Information */}
           <div className="mb-24">
@@ -158,40 +209,56 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <div className="bg-white p-6 rounded-xl border border-gray-100">
                 <h3 className="font-medium text-[#202124] mb-4">Revenue Metrics</h3>
-                <ul className="space-y-2 text-[#5f6368] text-sm">
+                <ul className="space-y-2 text-[#5f6368] text-sm mb-4">
                   <li>• Monthly revenue trends</li>
                   <li>• Average daily rates</li>
                   <li>• Previous year's earnings</li>
                   <li>• ROI calculations</li>
                   <li>• Utilization rates</li>
                 </ul>
+                <Link
+                  href="/instructions#revenue-metrics"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  Learn more <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
 
               <div className="bg-white p-6 rounded-xl border border-gray-100">
                 <h3 className="font-medium text-[#202124] mb-4">Vehicle Details</h3>
-                <ul className="space-y-2 text-[#5f6368] text-sm">
+                <ul className="space-y-2 text-[#5f6368] text-sm mb-4">
                   <li>• Make, model, and trim</li>
                   <li>• Market value estimates</li>
                   <li>• Days listed on Turo</li>
                   <li>• Completed trips</li>
                   <li>• Ratings and reviews</li>
                 </ul>
+                <Link
+                  href="/instructions#vehicle-details"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  Learn more <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
 
               <div className="bg-white p-6 rounded-xl border border-gray-100">
                 <h3 className="font-medium text-[#202124] mb-4">Host Insights</h3>
-                <ul className="space-y-2 text-[#5f6368] text-sm">
-                  <li>• Host performance metrics</li>
+                <ul className="space-y-2 text-[#5f6368] text-sm mb-4">
+                  <li>• Host metrics</li>
                   <li>• Protection plan rates</li>
                   <li>• Instant book locations</li>
                   <li>• Weekly/monthly discounts</li>
                   <li>• Distance allowances</li>
                 </ul>
+                <Link
+                  href="/instructions#host-insights"
+                  className="text-[#593CFB] text-sm hover:underline inline-flex items-center gap-1"
+                >
+                  Learn more <BookOpen className="w-4 h-4" />
+                </Link>
               </div>
             </div>
           </div>
-
-
 
           {/* Pricing Section */}
           <div id="pricing" className="text-center mb-24">
@@ -241,7 +308,6 @@ export default function Home() {
             </div>
           </div>
 
-
           {/* FAQ Section */}
           <div className="mb-24">
             <h2 className="text-center text-3xl font-medium text-[#202124] mb-12">Common Questions</h2>
@@ -289,6 +355,16 @@ export default function Home() {
                 $14.99/month • Cancel anytime • 30-day money-back guarantee
               </p>
             </div>
+          </div>
+
+          {/* Disclaimer */}
+          <div className="text-center text-sm text-gray-500 mb-12 max-w-3xl mx-auto">
+            <p>
+              Raptor Explorer is not affiliated with Turo Inc. The name "Turo" is a registered trademark of Turo Inc. 
+              Use of this registered trademark is only used as necessary to identify the products and services referenced 
+              and does not imply or suggest, nor is it intended to imply or suggest, any affiliation, endorsement, 
+              partnership, or business relationship with Turo Inc.
+            </p>
           </div>
         </main>
       </div>
