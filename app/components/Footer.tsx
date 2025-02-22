@@ -10,14 +10,14 @@ export default function Footer() {
                     <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                         <div className="text-sm text-gray-500 text-center md:text-left">
                             <div className="mb-2 md:mb-0">
-                                &copy; {new Date().getFullYear()} Browserfax 🇺🇸 🇺🇦
+                                &copy; {new Date().getFullYear()} Raptor Explorer 🇺🇸 🇺🇦
                             </div>
                             <div className="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0">
                                 <a 
                                     href="mailto:support@browserfax.com"
                                     className="text-gray-500 hover:text-gray-900"
                                 >
-                                    support@browserfax.com
+                                    support@raptorexplorer.com
                                 </a>
                                 <span className="hidden md:inline mx-2">•</span>
                                 <span>Kirkland, WA, United States</span>

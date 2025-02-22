@@ -37,7 +37,7 @@ export default function Home() {
                 Add to Chrome
               </a>
               <a
-                href="#pricing"
+                href="/instructions"
                 className="inline-flex items-center px-6 py-3 bg-white text-[#593CFB] font-medium rounded-lg hover:bg-[#593CFB]/5 transition duration-150 border border-[#593CFB]/20"
               >
                 View Docs
@@ -76,6 +76,122 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Value Props */}
+          <div className="text-center mb-24">
+            <h2 className="text-3xl font-medium text-[#202124] mb-12">
+              Everything You Need to Succeed on Turo
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                <DollarSign className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
+                <h3 className="font-medium text-[#202124] mb-2">Revenue Tracking</h3>
+                <p className="text-[#5f6368] text-sm">See how much you can make with different vehicles on Turo</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                <Search className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
+                <h3 className="font-medium text-[#202124] mb-2">Market Research</h3>
+                <p className="text-[#5f6368] text-sm">Find the most rented cars in your market</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                <TrendingUp className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
+                <h3 className="font-medium text-[#202124] mb-2">ROI Analysis</h3>
+                <p className="text-[#5f6368] text-sm">Calculate potential returns before investing</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                <BarChart2 className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
+                <h3 className="font-medium text-[#202124] mb-2">Host Tools</h3>
+                <p className="text-[#5f6368] text-sm">Essential analytics for Turo business growth</p>
+              </div>
+            </div>
+          </div>
+
+        {/* Data Collection Steps */}
+        <div className="mb-24">
+            <h2 className="text-center text-3xl font-medium text-[#202124] mb-12">
+              How to Get Started
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                <div className="aspect-video bg-gray-50 rounded-lg mb-4 flex items-center justify-center">
+                  <p className="text-gray-400 text-sm">Chrome Web Store Installation</p>
+                </div>
+                <h3 className="font-medium text-[#202124] mb-2">1. Install Extension</h3>
+                <p className="text-[#5f6368] text-sm">Add Raptor Explorer to Chrome from the Web Store to get started.</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                <div className="aspect-video bg-gray-50 rounded-lg mb-4 flex items-center justify-center">
+                  <p className="text-gray-400 text-sm">Turo Search Interface</p>
+                </div>
+                <h3 className="font-medium text-[#202124] mb-2">2. Search Vehicles</h3>
+                <p className="text-[#5f6368] text-sm">Browse Turo's map to collect vehicle data from your target area. Our extension automatically captures listings as you explore.</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                <div className="aspect-video bg-gray-50 rounded-lg mb-4 flex items-center justify-center">
+                  <p className="text-gray-400 text-sm">Data Enrichment Process</p>
+                </div>
+                <h3 className="font-medium text-[#202124] mb-2">3. Enrich Data</h3>
+                <p className="text-[#5f6368] text-sm">Click "Enrich Data" to gather detailed metrics including revenue history, utilization rates, and market values for each vehicle.</p>
+              </div>
+              
+              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                <div className="aspect-video bg-gray-50 rounded-lg mb-4 flex items-center justify-center">
+                  <p className="text-gray-400 text-sm">Analytics Dashboard</p>
+                </div>
+                <h3 className="font-medium text-[#202124] mb-2">4. Analyze & Export</h3>
+                <p className="text-[#5f6368] text-sm">Review insights in our interactive table or export to CSV for deeper analysis and business planning.</p>
+              </div>
+            </div>
+          </div>
+
+
+          {/* Table Information */}
+          <div className="mb-24">
+            <h2 className="text-center text-3xl font-medium text-[#202124] mb-12">
+              Comprehensive Vehicle Analytics
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="bg-white p-6 rounded-xl border border-gray-100">
+                <h3 className="font-medium text-[#202124] mb-4">Revenue Metrics</h3>
+                <ul className="space-y-2 text-[#5f6368] text-sm">
+                  <li>• Monthly revenue trends</li>
+                  <li>• Average daily rates</li>
+                  <li>• Previous year's earnings</li>
+                  <li>• ROI calculations</li>
+                  <li>• Utilization rates</li>
+                </ul>
+              </div>
+
+              <div className="bg-white p-6 rounded-xl border border-gray-100">
+                <h3 className="font-medium text-[#202124] mb-4">Vehicle Details</h3>
+                <ul className="space-y-2 text-[#5f6368] text-sm">
+                  <li>• Make, model, and trim</li>
+                  <li>• Market value estimates</li>
+                  <li>• Days listed on Turo</li>
+                  <li>• Completed trips</li>
+                  <li>• Ratings and reviews</li>
+                </ul>
+              </div>
+
+              <div className="bg-white p-6 rounded-xl border border-gray-100">
+                <h3 className="font-medium text-[#202124] mb-4">Host Insights</h3>
+                <ul className="space-y-2 text-[#5f6368] text-sm">
+                  <li>• Host performance metrics</li>
+                  <li>• Protection plan rates</li>
+                  <li>• Instant book locations</li>
+                  <li>• Weekly/monthly discounts</li>
+                  <li>• Distance allowances</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+
 
           {/* Pricing Section */}
           <div id="pricing" className="text-center mb-24">
@@ -125,73 +241,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Value Props */}
-          <div className="text-center mb-24">
-            <h2 className="text-3xl font-medium text-[#202124] mb-12">
-              Everything You Need to Succeed on Turo
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                <DollarSign className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
-                <h3 className="font-medium text-[#202124] mb-2">Revenue Tracking</h3>
-                <p className="text-[#5f6368] text-sm">See how much you can make with different vehicles on Turo</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                <Search className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
-                <h3 className="font-medium text-[#202124] mb-2">Market Research</h3>
-                <p className="text-[#5f6368] text-sm">Find the most rented cars in your market</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                <TrendingUp className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
-                <h3 className="font-medium text-[#202124] mb-2">ROI Analysis</h3>
-                <p className="text-[#5f6368] text-sm">Calculate potential returns before investing</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                <BarChart2 className="w-8 h-8 text-[#593CFB] mx-auto mb-4" />
-                <h3 className="font-medium text-[#202124] mb-2">Host Tools</h3>
-                <p className="text-[#5f6368] text-sm">Essential analytics for Turo business growth</p>
-              </div>
-            </div>
-          </div>
-
-          {/* How It Works */}
-          <div className="mb-24">
-            <h2 className="text-center text-3xl font-medium text-[#202124] mb-12">Start Your Profitable Turo Business</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="relative">
-                <div className="aspect-video bg-white rounded-lg shadow-md border border-gray-200 flex items-center justify-center">
-                  <p className="text-gray-400">Research Screenshot</p>
-                </div>
-                <div className="mt-4">
-                  <h3 className="font-medium text-[#202124]">1. Research Markets</h3>
-                  <p className="text-[#5f6368] text-sm">Find profitable opportunities with our analytics tools</p>
-                </div>
-              </div>
-              
-              <div className="relative">
-                <div className="aspect-video bg-white rounded-lg shadow-md border border-gray-200 flex items-center justify-center">
-                  <p className="text-gray-400">Analysis Screenshot</p>
-                </div>
-                <div className="mt-4">
-                  <h3 className="font-medium text-[#202124]">2. Analyze Performance</h3>
-                  <p className="text-[#5f6368] text-sm">Track revenue and utilization rates</p>
-                </div>
-              </div>
-              
-              <div className="relative">
-                <div className="aspect-video bg-white rounded-lg shadow-md border border-gray-200 flex items-center justify-center">
-                  <p className="text-gray-400">Growth Screenshot</p>
-                </div>
-                <div className="mt-4">
-                  <h3 className="font-medium text-[#202124]">3. Grow Your Fleet</h3>
-                  <p className="text-[#5f6368] text-sm">Make data-driven decisions to expand</p>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* FAQ Section */}
           <div className="mb-24">
