@@ -30,34 +30,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] relative overflow-hidden">
-      {/* Decorative Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Primary Shapes */}
-        {/* Google Blue Shapes */}
-        <div className="absolute right-[15%] top-[10%] w-40 h-40 rounded-[40px] rotate-12 bg-[#4285F4] opacity-[0.15]" />
-        <div className="absolute left-[20%] top-[60%] w-24 h-24 rounded-[24px] -rotate-12 bg-[#4285F4] opacity-[0.12]" />
-        
-        {/* Google Red Shapes */}
-        <div className="absolute left-[25%] top-[20%]">
-          <div className="w-32 h-32 transform rotate-45 bg-[#EA4335] opacity-[0.12]" />
-        </div>
-        <div className="absolute right-[30%] bottom-[15%]">
-          <div className="w-24 h-24 transform -rotate-12 bg-[#EA4335] opacity-[0.1]" />
-        </div>
-        
-        {/* Google Yellow Shapes */}
-        <div className="absolute right-[25%] top-[40%] w-28 h-28 rounded-full bg-[#FBBC05] opacity-[0.15]" />
-        <div className="absolute left-[35%] bottom-[25%] w-20 h-20 rounded-full bg-[#FBBC05] opacity-[0.12]" />
-        
-        {/* Google Green Shapes */}
-        <div className="absolute right-[35%] top-[70%] w-20 h-16 rounded-xl bg-[#34A853] opacity-[0.1] -rotate-6" />
-
-        {/* Secondary Small Shapes */}
-        <div className="absolute left-[15%] top-[40%] w-8 h-8 rounded-lg bg-[#4285F4] opacity-[0.1] rotate-12" />
-        <div className="absolute right-[40%] top-[25%] w-6 h-6 rounded-full bg-[#FBBC05] opacity-[0.1]" />
-        <div className="absolute left-[45%] bottom-[20%] w-10 h-10 rounded-lg bg-[#EA4335] opacity-[0.08] rotate-45" />
-        <div className="absolute right-[20%] bottom-[35%] w-12 h-8 rounded-xl bg-[#34A853] opacity-[0.1] -rotate-12" />
-      </div>
 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 relative">
         <Header />
