@@ -20,7 +20,7 @@ export default function Privacy() {
                         <section className="mb-8">
                             <h2 className="text-2xl font-semibold mb-4">Overview</h2>
                             <p className="mb-4">
-                                Browserfax (operated by West Wanted LLC) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our service.
+                                Raptor Explorer (operated by West Wanted LLC) is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our service.
                             </p>
                         </section>
 
