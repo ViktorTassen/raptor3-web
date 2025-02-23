@@ -1,9 +1,10 @@
-
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import Header from '../components/Header';
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 
 const sections = [
   { id: 'welcome', title: 'Welcome' },
@@ -23,6 +24,29 @@ const sections = [
 export default function Instructions() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('welcome');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  const screenshots = [
+    { src: "/s1.png", alt: "Finding the Raptor Explorer button" },
+    { src: "/s2.png", alt: "Empty data table view" },
+    { src: "/s3.png", alt: "Google sign-in process" },
+    { src: "/s4.png", alt: "Recording button location" },
+    { src: "/s5.png", alt: "Recording active state" },
+    { src: "/s6.png", alt: "Map movement and search button" },
+    { src: "/s7.png", alt: "Vehicles added notification" },
+    { src: "/s8.png", alt: "Enrichment process start" },
+    { src: "/s9.png", alt: "Enriched data view" },
+    { src: "/s10.png", alt: "Free vs Pro comparison" },
+    { src: "/s11.png", alt: "Upgrade prompt" },
+    { src: "/s12.png", alt: "Pro features unlocked" },
+    { src: "/s13.png", alt: "Table columns and data points" },
+  ];
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,6 +82,22 @@ export default function Instructions() {
     setIsMenuOpen(false);
   };
 
+  const ScreenshotImage = ({ src, alt, index }: { src: string; alt: string; index: number }) => (
+    <div 
+      className="relative rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
+      style={{ paddingTop: 'calc(100% / 2.07)' }} // This creates a 2.07:1 aspect ratio
+      onClick={() => openLightbox(index)}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-10 transition-opacity" />
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-[#f8f9fa]">
       <Header />
@@ -68,6 +108,13 @@ export default function Instructions() {
       >
         {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
+
+      <Lightbox
+        open={lightboxOpen}
+        close={() => setLightboxOpen(false)}
+        index={lightboxIndex}
+        slides={screenshots}
+      />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row gap-8 relative">
@@ -129,12 +176,8 @@ export default function Instructions() {
                       above the search results. Click this button to open the extension's data table.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 1: Finding the Raptor Explorer button</p>
-                      </div>
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 2: Empty data table view</p>
-                      </div>
+                      <ScreenshotImage src="/s1.png" alt="Finding the Raptor Explorer button" index={0} />
+                      <ScreenshotImage src="/s2.png" alt="Empty data table view" index={1} />
                     </div>
                   </div>
 
@@ -144,8 +187,9 @@ export default function Instructions() {
                       Click on "Sign in with Google" and select your Google account. Raptor Explorer only accesses your 
                       email for communication purposes and does not collect personal information.
                     </p>
-                    <div className="bg-gray-100 rounded-lg p-4 mb-6">
-                      <p className="text-sm text-gray-500 italic">Screenshot: Google sign-in process</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <ScreenshotImage src="/s3.png" alt="Google sign-in process" index={2} />
+                      <ScreenshotImage src="/s4.png" alt="Google sign-in select" index={3} />
                     </div>
                   </div>
 
@@ -156,12 +200,8 @@ export default function Instructions() {
                       data is retrieved from Turo.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 1: Recording button location</p>
-                      </div>
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 2: Recording active state</p>
-                      </div>
+                      <ScreenshotImage src="/s5.png" alt="Recording location" index={4} />
+                      <ScreenshotImage src="/s6.png" alt="Recording active state" index={5} />
                     </div>
                   </div>
 
@@ -173,12 +213,8 @@ export default function Instructions() {
                       vehicles, so zoom and pan the map to collect all vehicles in the area.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 1: Map movement and search button</p>
-                      </div>
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 2: Vehicles added notification</p>
-                      </div>
+                      <ScreenshotImage src="/s7.png" alt="Search map" index={6} />
+                      <ScreenshotImage src="/s8.png" alt="Vehicles added notification" index={7} />
                     </div>
                   </div>
 
@@ -189,12 +225,8 @@ export default function Instructions() {
                       approximately 4 seconds to process because the extension pulls data from multiple sources.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 1: Enrichment process start</p>
-                      </div>
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 2: Enriched data view</p>
-                      </div>
+                      <ScreenshotImage src="/s9.png" alt="Enriched data button" index={8} />
+                      <ScreenshotImage src="/s10.png" alt="Enriched data view" index={9} />
                     </div>
                   </div>
 
@@ -205,15 +237,10 @@ export default function Instructions() {
                       version allows you to enrich data for up to 5 vehicles, giving you a preview of the insights available.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 1: Free vs Pro comparison</p>
-                      </div>
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 2: Upgrade prompt</p>
-                      </div>
-                      <div className="bg-gray-100 rounded-lg p-4">
-                        <p className="text-sm text-gray-500 italic">Screenshot 3: Pro features unlocked</p>
-                      </div>
+                      
+                      <ScreenshotImage src="/s11.png" alt="Upgrade to Pro 1" index={10} />
+                      <ScreenshotImage src="/s12.png" alt="Upgrade to Pro 2" index={11} />
+                      <ScreenshotImage src="/s13.png" alt="Upgrade to Pro Stripe" index={12} />
                     </div>
                   </div>
                 </div>
@@ -221,7 +248,7 @@ export default function Instructions() {
 
               <section id="table-columns" className="mb-12">
                 <h2 className="text-2xl font-bold mb-4">Table Columns & Data Points</h2>
-                
+
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-xl font-semibold mb-3">Basic Vehicle Information</h3>
@@ -259,11 +286,57 @@ export default function Instructions() {
                       <li>Avg Market Value: Estimated resale value of the vehicle</li>
                       <li>Days on Turo: Number of days since first listing</li>
                       <li>Trips: Total number of completed rentals</li>
+                      <li>Favs: How many times the car has been added to users' favorites</li>
                       <li>Rating: Average rating given by renters</li>
                       <li>Reviews: Total number of guest reviews received</li>
                     </ul>
                   </div>
+
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">Host Information</h3>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>Instant Book: Icons indicating where instant booking is enabled: Airport locations, Custom locations, Home location, Points of interest</li>
+                      <li>Host: Host name with profile picture</li>
+                      <li>Host Status: Indicates if host is All-Star and/or Pro</li>
+                      <li>P Plan: Protection plan rate percentage chosen by host</li>
+                      <li>Host ID: Unique identifier for the host</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">Location & Vehicle Details</h3>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>City, State: Vehicle's listed location</li>
+                      <li>Transmission: Auto or Manual</li>
+                      <li>Color: Vehicle color with visual indicator</li>
+                      <li>Daily Distance: Allowed daily mileage</li>
+                      <li>Weekly Distance: Allowed weekly mileage</li>
+                      <li>Monthly Distance: Allowed monthly mileage</li>
+                      <li>Excess Fee: Per mile/km charge for exceeding distance limits</li>
+                    </ul>
+                      </div>
+
+                <div>
+                    <h3 className="text-xl font-semibold mb-3">Pricing & Discounts</h3>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>Weekly Discount: Percentage discount for weekly rentals</li>
+                      <li>Monthly Discount: Percentage discount for monthly rentals</li>
+                    </ul>
+                  </div>
+
+                <div>
+                    <h3 className="text-xl font-semibold mb-3">Listing Information</h3>
+                    <ul className="list-disc pl-6 space-y-2">
+                      <li>Listed: Date when the vehicle was first listed on Turo</li>
+                      <li>Vehicle ID: Unique identifier for the vehicle</li>
+                      <li>Listing URL: Direct link to the vehicle's Turo listing</li>
+                    </ul>
+                  </div>
+
+
                 </div>
+
+               
               </section>
 
               <section id="manage-subscription" className="mb-12">
@@ -273,14 +346,9 @@ export default function Instructions() {
                   open the Stripe customer portal, where you can update your billing details, download invoices, or cancel 
                   your subscription.
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  <div className="bg-gray-100 rounded-lg p-4">
-                    <p className="text-sm text-gray-500 italic">Screenshot 1: Extension menu location</p>
-                  </div>
-                  <div className="bg-gray-100 rounded-lg p-4">
-                    <p className="text-sm text-gray-500 italic">Screenshot 2: Stripe customer portal</p>
-                  </div>
-                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                      <ScreenshotImage src="/s14.png" alt="Manage subscription" index={13} />
+                    </div>
               </section>
 
               <section id="support" className="mb-12">

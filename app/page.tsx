@@ -52,7 +52,7 @@ export default function Home() {
             <div className="relative w-full max-w-4xl">
               <div className="aspect-[16/9] bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200">
                 <Image
-                  src="/main-screenshot.png"
+                  src="/main-screen.png"
                   alt="Raptor Explorer Analytics Dashboard"
                   fill
                   priority
