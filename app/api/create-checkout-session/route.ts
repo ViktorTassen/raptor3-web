@@ -70,7 +70,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
           },
         ],
         allow_promotion_codes: true,
-        invoice_creation: { enabled: true },
+        // invoice_creation: { enabled: true }, //  You can only enable invoice creation when `mode` is set to `payment`
         mode: price.type === 'recurring' ? 'subscription' : 'payment',
         success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cancel`,
