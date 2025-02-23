@@ -250,46 +250,53 @@ export default function Home() {
           {/* Pricing Section */}
           <div id="pricing" className="text-center mb-24">
             <h2 className="text-3xl font-medium text-[#202124] mb-12">Simple, Transparent Pricing</h2>
-            <div className="max-w-md mx-auto bg-white rounded-xl border border-[#593CFB]/20 overflow-hidden">
+            <div className="max-w-sm mx-auto bg-white rounded-2xl border border-[#593CFB]/20 overflow-hidden transform hover:scale-[1.02] transition-transform duration-300">
               <div className="p-8">
-                <h3 className="text-2xl font-medium text-[#202124] mb-2">Pro Plan</h3>
-                <div className="flex items-baseline justify-center gap-1 mb-4">
-                  <span className="text-4xl font-bold">$14.99</span>
-                  <span className="text-gray-600">/month</span>
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <span className="text-[#593CFB] font-medium">Pro Plan</span>
+                  {/* <span className="px-3 py-1 bg-[#593CFB]/10 text-[#593CFB] text-sm rounded-full">Most Popular</span> */}
                 </div>
+                
+                <div className="flex items-baseline justify-center gap-0.5 mb-6">
+                  <span className="text-xl font-medium text-gray-600">$</span>
+                  <span className="text-5xl font-bold text-[#202124]">14</span>
+                  <span className="text-2xl font-medium text-gray-600">.99</span>
+                  <span className="text-gray-500 ml-1">/mo</span>
+                </div>
+
                 <ul className="space-y-3 text-left mb-8">
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
+                  <li className="flex items-center gap-2 text-[15px] text-gray-600">
+                    <CheckCircle className="w-5 h-5 text-[#593CFB]" />
                     <span>Unlimited search results</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
+                  <li className="flex items-center gap-2 text-[15px] text-gray-600">
+                    <CheckCircle className="w-5 h-5 text-[#593CFB]" />
                     <span>Revenue analytics & ROI tracking</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
+                  <li className="flex items-center gap-2 text-[15px] text-gray-600">
+                    <CheckCircle className="w-5 h-5 text-[#593CFB]" />
                     <span>Market research tools</span>
                   </li>
-                  <li className="flex items-center gap-2">
-                    <CheckCircle className="w-5 h-5 text-green-500" />
+                  <li className="flex items-center gap-2 text-[15px] text-gray-600">
+                    <CheckCircle className="w-5 h-5 text-[#593CFB]" />
                     <span>Export data to CSV</span>
                   </li>
                 </ul>
+
                 <a
-                  href="https://chrome.google.com/webstore/detail/raptor-explorer"
+                  href="/instructions"
                   target="_blank"
-                  className="block w-full bg-[#593CFB] text-white font-medium rounded-lg py-3 hover:bg-[#593CFB]/90 transition duration-150"
+                  className="block w-full bg-[#593CFB] text-white font-medium rounded-xl py-3 hover:bg-[#593CFB]/90 transition duration-150"
                 >
                   Get Started
                 </a>
-                <p className="mt-4 text-sm text-gray-600">
+                <p className="mt-4 text-sm text-gray-500">
                   Cancel anytime • 30-day money-back guarantee
                 </p>
               </div>
-              <div className="px-8 py-4 bg-gray-50 border-t border-gray-100">
-                <div className="flex items-center justify-center gap-4">
-                  <img src="/stripe-badge.svg" alt="Stripe" className="h-6" />
-                  <span className="text-sm text-gray-600">Secure payments by Stripe</span>
+              <div className="px-8 py-4 bg-[#593CFB]/5 border-t border-[#593CFB]/10">
+                <div className="flex items-center justify-center gap-3">
+                  <span className="text-sm text-gray-500">Secure payments by Stripe</span>
                 </div>
               </div>
             </div>
