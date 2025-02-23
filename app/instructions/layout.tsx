@@ -7,8 +7,8 @@ export const metadata: Metadata = {
     title: 'Raptor Explorer Instructions - Car Sharing Analytics Tool',
     description: 'Complete guide on using Raptor Explorer to analyze Turo car listings and market data',
     type: 'article',
-    publishedTime: '2024-06-11T00:00:00.000Z',
-    authors: ['Tasiev LLC'],
+    publishedTime: '2025-02-22T00:00:00.000Z',
+    authors: ['West Wanted LLC'],
   }
 };
 

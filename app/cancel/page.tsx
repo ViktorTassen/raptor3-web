@@ -49,7 +49,7 @@ export default function Cancel() {
 
             <div className="p-4 text-center">
                 <p className="text-[#5f6368] text-sm">
-                    Need help? Contact <a href="mailto:support@browserfax.com" className="text-[#1a73e8] hover:text-[#1557b0]">support@browserfax.com</a>
+                    Need help? Contact <a href="mailto:support@raptorexplorer.com" className="text-[#1a73e8] hover:text-[#1557b0]">support@raptorexplorer.com</a>
                 </p>
             </div>
         </div>

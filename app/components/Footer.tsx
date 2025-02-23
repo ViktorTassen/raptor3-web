@@ -14,7 +14,7 @@ export default function Footer() {
                             </div>
                             <div className="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0">
                                 <a 
-                                    href="mailto:support@browserfax.com"
+                                    href="mailto:support@raptorexplorer.com"
                                     className="text-gray-500 hover:text-gray-900"
                                 >
                                     support@raptorexplorer.com

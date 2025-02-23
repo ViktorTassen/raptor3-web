@@ -107,26 +107,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         } else if (session.mode === 'payment') {
           const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
           const price = await stripe.prices.retrieve(lineItems.data[0].price?.id || '');
-          
-          // Browserfax specific: Get number of fax pages from price metadata
-          const pages = parseInt(price.metadata?.pages || '0', 10);
-          
-          // Browserfax specific: Update user's remaining fax pages
-          await userRef.update({
-            remainingPages: FieldValue.increment(pages)
-          });
-
-          // Browserfax specific: Record the purchase with page count
-          await userRef.collection('purchases').add({
-            amount: session.amount_total,
-            currency: session.currency,
-            pages, // Number of fax pages purchased
-            createdAt: new Date(),
-            status: 'completed',
-            paymentIntentId: session.payment_intent,
-            priceId: price.id,
-            productId: price.product
-          });
         }
         break;
       }

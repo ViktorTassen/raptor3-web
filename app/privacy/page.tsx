@@ -74,8 +74,8 @@ export default function Privacy() {
                                 522 W RIVERSIDE AVE STE N<br />
                                 Spokane, WA 99201<br />
                                 United States<br />
-                                <a href="mailto:support@browserfax.com" className="text-blue-600 hover:underline">
-                                    support@browserfax.com
+                                <a href="mailto:support@raptorexplorer.com" className="text-blue-600 hover:underline">
+                                support@raptorexplorer.com
                                 </a>
                             </address>
                         </section>
