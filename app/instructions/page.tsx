@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Chrome } from 'lucide-react';
 import Header from '../components/Header';
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
@@ -17,6 +17,7 @@ const sections = [
   { id: 'step5', title: '5. Enrich data', parent: 'get-vehicle-data' },
   { id: 'step6', title: '6. Upgrade to Pro', parent: 'get-vehicle-data' },
   { id: 'table-columns', title: 'Table Columns & Data Points' },
+  { id: 'settings-panel', title: 'Settings Panel' },
   { id: 'manage-subscription', title: 'Manage Your Subscription' },
   { id: 'support', title: 'Support' },
 ];
@@ -85,7 +86,7 @@ export default function Instructions() {
   const ScreenshotImage = ({ src, alt, index }: { src: string; alt: string; index: number }) => (
     <div 
       className="relative rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-[1.02]"
-      style={{ paddingTop: 'calc(100% / 2.07)' }} // This creates a 2.07:1 aspect ratio
+      style={{ paddingTop: 'calc(100% / 2.07)' }}
       onClick={() => openLightbox(index)}
     >
       <Image
@@ -164,6 +165,58 @@ export default function Instructions() {
                 </div>
               </section>
 
+              <section id="installation" className="mb-12">
+                <h2 className="text-2xl font-bold mb-4">Installation</h2>
+                
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">Add to Chrome</h3>
+                    <p className="mb-4">
+                      To install Raptor Explorer, follow these steps:
+                    </p>
+                    <ol className="list-decimal pl-6 space-y-4">
+                      <li>
+                        Visit the Chrome Web Store page for Raptor Explorer:
+                        <a 
+                          href="https://chromewebstore.google.com/detail/raptor-explorer-car-renta/kcekmgedcdnjjfcklokfidemgjdanjpp"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block mt-2 inline-flex items-center px-4 py-2 bg-[#593CFB] text-white rounded-lg hover:bg-[#593CFB]/90 transition-colors gap-2"
+                        >
+                          <Chrome className="w-5 h-5" />
+                          Add to Chrome
+                        </a>
+                      </li>
+                      <li>Click the "Add to Chrome" button on the Chrome Web Store page</li>
+                      <li>Review the permissions and click "Add extension" in the confirmation dialog</li>
+                      <li>Wait for the installation to complete</li>
+                      <li>
+                        Once installed, you'll see the Raptor Explorer icon in your Chrome toolbar
+                        <div className="mt-2 flex items-center gap-2">
+                          <Image
+                            src="/icon-cropped.png"
+                            alt="Raptor Explorer Icon"
+                            width={24}
+                            height={24}
+                            className="rounded"
+                          />
+                          <span className="text-sm text-gray-600">← Look for this icon in your toolbar</span>
+                        </div>
+                      </li>
+                    </ol>
+                  </div>
+
+                  <div className="bg-yellow-50 rounded-lg p-6">
+                    <h4 className="font-medium mb-2">Important Notes</h4>
+                    <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                      <li>Tested in Chrome browser only</li>
+                      <li>All data collection is limited to Turo.com domain</li>
+                      <li>We do not collect any personal information, including any details associated with your Turo account</li>
+                    </ul>
+                  </div>
+                </div>
+              </section>
+
               <section id="get-vehicle-data" className="mb-12">
                 <h2 className="text-2xl font-bold mb-4">How to Use</h2>
 
@@ -207,11 +260,12 @@ export default function Instructions() {
 
                   <div id="step4">
                     <h3 className="text-xl font-semibold mb-3">4. Update Search</h3>
-                    <p className="mb-4">
+                    <p >
                       Move the map slightly until the "Search this area" button appears and click it. A notification will 
                       show how many vehicles have been added to the Raptor table. Each request captures a maximum of 200 
                       vehicles, so zoom and pan the map to collect all vehicles in the area.
                     </p>
+                    <p className="mb-4">If no notification appears, refresh the page or close and reopen it to restart the script that collects vehicle data.</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                       <ScreenshotImage src="/s7.png" alt="Search map" index={6} />
                       <ScreenshotImage src="/s8.png" alt="Vehicles added notification" index={7} />
@@ -237,7 +291,6 @@ export default function Instructions() {
                       version allows you to enrich data for up to 5 vehicles, giving you a preview of the insights available.
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                      
                       <ScreenshotImage src="/s11.png" alt="Upgrade to Pro 1" index={10} />
                       <ScreenshotImage src="/s12.png" alt="Upgrade to Pro 2" index={11} />
                       <ScreenshotImage src="/s13.png" alt="Upgrade to Pro Stripe" index={12} />
@@ -314,9 +367,9 @@ export default function Instructions() {
                       <li>Monthly Distance: Allowed monthly mileage</li>
                       <li>Excess Fee: Per mile/km charge for exceeding distance limits</li>
                     </ul>
-                      </div>
+                  </div>
 
-                <div>
+                  <div>
                     <h3 className="text-xl font-semibold mb-3">Pricing & Discounts</h3>
                     <ul className="list-disc pl-6 space-y-2">
                       <li>Weekly Discount: Percentage discount for weekly rentals</li>
@@ -324,7 +377,7 @@ export default function Instructions() {
                     </ul>
                   </div>
 
-                <div>
+                  <div>
                     <h3 className="text-xl font-semibold mb-3">Listing Information</h3>
                     <ul className="list-disc pl-6 space-y-2">
                       <li>Listed: Date when the vehicle was first listed on Turo</li>
@@ -332,11 +385,94 @@ export default function Instructions() {
                       <li>Listing URL: Direct link to the vehicle's Turo listing</li>
                     </ul>
                   </div>
-
-
                 </div>
+              </section>
 
-               
+              <section id="settings-panel" className="mb-12">
+                <h2 className="text-2xl font-bold mb-4">Settings Panel</h2>
+                <p className="mb-6">
+                  The settings panel allows you to customize how revenue calculations are performed. These settings affect all 
+                  revenue-related metrics in the table and exports.
+                </p>
+
+                <div className="space-y-8">
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">1. Include Weekly/Monthly Discounts</h3>
+                    <div className="bg-gray-50 rounded-lg p-6 mb-4">
+                      <div className="mb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                          <span className="font-medium">Enabled (Default)</span>
+                        </div>
+                        <p className="text-gray-600 ml-5">
+                          Revenue calculations include any applicable weekly (7+ days) or monthly (31+ days) discounts 
+                          offered by the host
+                        </p>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                          <span className="font-medium">Disabled</span>
+                        </div>
+                        <p className="text-gray-600 ml-5">
+                          Revenue is calculated using the base daily rate without any discounts
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-blue-50 rounded-lg p-6">
+                      <h4 className="font-medium mb-2">Calculation Method:</h4>
+                      <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                        <li>For bookings ≥ 31 days: Applies monthly discount percentage</li>
+                        <li>For bookings ≥ 7 days: Applies weekly discount percentage (if no monthly discount applies)</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">2. Apply Protection Plan Rate</h3>
+                    <div className="bg-gray-50 rounded-lg p-6 mb-4">
+                      <div className="mb-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                          <span className="font-medium">Disabled (Default)</span>
+                        </div>
+                        <p className="text-gray-600 ml-5">
+                          Shows full revenue before protection plan fees
+                        </p>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                          <span className="font-medium">Enabled</span>
+                        </div>
+                        <p className="text-gray-600 ml-5">
+                          Revenue is adjusted based on the host's chosen protection plan rate
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">Impact on Revenue Metrics</h3>
+                    <p className="mb-4">These settings affect the following columns:</p>
+                    <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                      <li>Est. Monthly Revenue</li>
+                      <li>Avg Monthly Revenue</li>
+                      <li>Prev Year Revenue</li>
+                      <li>ROI (due to changes in revenue calculations)</li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">Export Considerations</h3>
+                    <ul className="list-disc pl-6 space-y-2 text-gray-600">
+                      <li>When exporting to CSV, the current settings state is included in the export</li>
+                      <li>A "Revenue Settings" column indicates which adjustments were applied to the calculations</li>
+                      <li>Settings are preserved between sessions</li>
+                    </ul>
+                  </div>
+                </div>
               </section>
 
               <section id="manage-subscription" className="mb-12">
@@ -347,8 +483,8 @@ export default function Instructions() {
                   your subscription.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                      <ScreenshotImage src="/s14.png" alt="Manage subscription" index={13} />
-                    </div>
+                  <ScreenshotImage src="/s14.png" alt="Manage subscription" index={13} />
+                </div>
               </section>
 
               <section id="support" className="mb-12">
