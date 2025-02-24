@@ -21,11 +21,12 @@ export default function Home() {
               Analytics Tool for Turo Hosts
             </div>
             <h1 className="text-[#202124] text-4xl md:text-6xl font-medium mb-6">
-              Make Your Turo Business<br />More Profitable
+            Discover the best cars for Turo
+              
             </h1>
            
             <p className="text-[#5f6368] text-xl mb-8 max-w-2xl mx-auto">
-              Discover the best cars for Turo and maximize your earnings with real-time analytics and ROI insights.
+            Make your Turo business more profitable.  Maximize your earnings with real-time analytics and ROI insights.
             </p>
 
             <div className="flex items-center justify-center gap-4">
@@ -153,7 +154,14 @@ export default function Home() {
                 </div>
                 <div className="p-6">
                   <h3 className="font-medium text-[#202124] mb-2">2. Search Vehicles</h3>
-                  <p className="text-[#5f6368] text-sm">Browse Turo to data from your area. Raptor automatically captures listings</p>
+                  <p className="text-[#5f6368] text-sm mb-4">Browse Turo to data from your area. Raptor automatically captures listings</p>
+                  <a
+                    href="/instructions"
+                    target="_blank"
+                    className="inline-flex items-center text-[#593CFB] hover:text-[#593CFB]/90 transition-colors gap-1 text-sm"
+                  >
+                    Open instructions
+                  </a>
                 </div>
               </div>
               
@@ -167,7 +175,14 @@ export default function Home() {
                 </div>
                 <div className="p-6">
                   <h3 className="font-medium text-[#202124] mb-2">3. Enrich Data</h3>
-                  <p className="text-[#5f6368] text-sm">Gather metrics including revenue history, utilization rates, and market values.</p>
+                  <p className="text-[#5f6368] text-sm mb-4">Gather metrics including revenue history, utilization rates, and market values.</p>
+                  <a
+                    href="/instructions"
+                    target="_blank"
+                    className="inline-flex items-center text-[#593CFB] hover:text-[#593CFB]/90 transition-colors gap-1 text-sm"
+                  >
+                    Open instructions
+                  </a>
                 </div>
               </div>
               
@@ -182,7 +197,14 @@ export default function Home() {
                 </div>
                 <div className="p-6">
                   <h3 className="font-medium text-[#202124] mb-2">4. Analyze & Export</h3>
-                  <p className="text-[#5f6368] text-sm">Review insights in table or export to CSV for deeper analysis and planning.</p>
+                  <p className="text-[#5f6368] text-sm mb-4">Review insights in table or export to CSV for deeper analysis and planning.</p>
+                  <a
+                    href="/instructions"
+                    target="_blank"
+                    className="inline-flex items-center text-[#593CFB] hover:text-[#593CFB]/90 transition-colors gap-1 text-sm"
+                  >
+                    Open instructions
+                  </a>
                 </div>
               </div>
             </div>

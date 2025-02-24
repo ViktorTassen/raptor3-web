@@ -176,15 +176,13 @@ export default function Instructions() {
                     </p>
                     <ol className="list-decimal pl-6 space-y-4">
                       <li>
-                        Visit the Chrome Web Store page for Raptor Explorer:
+                        Visit the
                         <a 
                           href="https://chromewebstore.google.com/detail/raptor-explorer-car-renta/kcekmgedcdnjjfcklokfidemgjdanjpp"
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block mt-2 inline-flex items-center px-4 py-2 bg-[#593CFB] text-white rounded-lg hover:bg-[#593CFB]/90 transition-colors gap-2"
-                        >
-                          <Chrome className="w-5 h-5" />
-                          Add to Chrome
+                          className="text-[#593CFB] gap-2"
+                        > Chrome Web Store page for Raptor Explorer
                         </a>
                       </li>
                       <li>Click the "Add to Chrome" button on the Chrome Web Store page</li>
