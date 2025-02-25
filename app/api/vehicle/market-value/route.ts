@@ -38,6 +38,8 @@ const API_CONFIG = {
   }
 } as const;
 
+const REQUEST_TIMEOUT = 10000; // 10 seconds in milliseconds
+
 // Types
 interface Vehicle {
   year: string;
@@ -119,6 +121,26 @@ function formatVinAuditId(vehicle: Vehicle): string {
   return parts.join('_');
 }
 
+async function fetchWithTimeout(url: string, options: RequestInit = {}) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    return response;
+  } catch (error) {
+    clearTimeout(timeoutId);
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error('Request timeout');
+    }
+    throw error;
+  }
+}
+
 async function getAutoDevMarketValue({
   year,
   make,
@@ -133,7 +155,6 @@ async function getAutoDevMarketValue({
     year_max: year,
     make,
     model,
-    // sort_filter: 'price:asc'
   });
 
   if (trim) {
@@ -143,7 +164,7 @@ async function getAutoDevMarketValue({
   const url = `${baseUrl}/listings?${searchParams.toString()}`;
   console.log('Auto.dev URL:', url);
 
-  const response = await fetch(url, {
+  const response = await fetchWithTimeout(url, {
     headers: { 'Accept': 'application/json' }
   });
 
@@ -191,7 +212,7 @@ async function getVinAuditMarketValue({
   const url = `https://marketvalues.vinaudit.com/getmarketvalue.php?key=${apiKey}&id=${id}`;
   console.log('VinAudit URL:', url);
 
-  const response = await fetch(url);
+  const response = await fetchWithTimeout(url);
   const data = await response.json() as VinAuditResponse;
 
   if (!response.ok) {

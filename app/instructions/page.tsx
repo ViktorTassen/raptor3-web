@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { Menu, X, Chrome } from 'lucide-react';
+import { Menu, X, Chrome, LogOut } from 'lucide-react';
 import Header from '../components/Header';
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
@@ -19,6 +19,7 @@ const sections = [
   { id: 'table-columns', title: 'Table Columns & Data Points' },
   { id: 'settings-panel', title: 'Settings Panel' },
   { id: 'manage-subscription', title: 'Manage Your Subscription' },
+  { id: 'common-issues', title: 'Common Issues' },
   { id: 'support', title: 'Support' },
 ];
 
@@ -473,7 +474,7 @@ export default function Instructions() {
                 </div>
               </section>
 
-              <section id="manage-subscription" className="mb-12">
+              <section id="manage-subscription" className="mb-24">
                 <h2 className="text-2xl font-bold mb-4">Manage Your Subscription</h2>
                 <p className="mb-4">
                   Click on the extension icon in your browser's extensions bar, then select "Manage Subscription." This will 
@@ -482,6 +483,50 @@ export default function Instructions() {
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                   <ScreenshotImage src="/s14.png" alt="Manage subscription" index={13} />
+                </div>
+              </section>
+
+              <section id="common-issues" className="mb-12">
+                <h2 className="text-2xl font-bold mb-4">Common Issues</h2>
+                
+                <div className="space-y-8">
+                  <div>
+                    <h3 className="text-xl font-semibold mb-3">Vehicle Data Not Enriching (Pro Members)</h3>
+                    <p className="mb-4">
+                      If you're a Pro member and experiencing issues with vehicle data enrichment, follow these steps:
+                    </p>
+                    <ol className="list-decimal pl-6 space-y-4">
+                      <li>
+                        <strong>Sign out of your account:</strong>
+                        <ul className="list-disc pl-6 mt-2 space-y-2">
+                          <li>Click the Raptor Explorer icon in your Chrome toolbar (cif extension is not pinned click puzzle icon in top right corner first)</li>
+                          <li>Click "Sign Out"</li>
+                        </ul>
+                      </li>
+                      <li>
+                        <strong>Sign back in:</strong>
+                        <ul className="list-disc pl-6 mt-2 space-y-2">
+                          <li>Return to Turo and click the Raptor Explorer button</li>
+                          <li>Click "Sign in with Google"</li>
+                          <li>Select your account</li>
+                        </ul>
+                      </li>
+                    </ol>
+                    
+                    <div className="bg-yellow-50 rounded-lg p-6 mt-6">
+                      <h4 className="font-medium mb-2 flex items-center gap-2">
+                        <LogOut className="w-5 h-5" />
+                        Having issues?
+                      </h4>
+                      <p className="text-gray-600">
+                       Please contact our support team at{' '}
+                        <a href="mailto:support@raptorexplorer.com" className="text-blue-600 hover:underline">
+                          support@raptorexplorer.com
+                        </a>
+                        . This could indicate a temporary service disruption affecting all users.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </section>
 
