@@ -31,7 +31,7 @@ export default function Home() {
 
             <div className="flex items-center justify-center gap-4">
               <a
-                href="https://chrome.google.com/webstore/detail/raptor-explorer"
+                href="https://chromewebstore.google.com/detail/raptor-explorer-car-renta/kcekmgedcdnjjfcklokfidemgjdanjpp"
                 target="_blank"
                 className="inline-flex items-center px-6 py-3 bg-[#593CFB] text-white font-medium rounded-lg hover:bg-[#593CFB]/90 transition duration-150 gap-2"
               >
@@ -133,7 +133,7 @@ export default function Home() {
                   <h3 className="font-medium text-[#202124] mb-2">1. Install Extension</h3>
                   <p className="text-[#5f6368] text-sm mb-4">Add Raptor Explorer to Chrome from the Web Store to get started.</p>
                   <a
-                    href="https://chrome.google.com/webstore/detail/raptor-explorer"
+                    href="https://chromewebstore.google.com/detail/raptor-explorer-car-renta/kcekmgedcdnjjfcklokfidemgjdanjpp"
                     target="_blank"
                     className="inline-flex items-center text-[#593CFB] hover:text-[#593CFB]/90 transition-colors gap-1 text-sm"
                   >
@@ -252,7 +252,7 @@ export default function Home() {
 
             <div className="flex justify-center gap-4 mt-8">
               <a
-                href="https://chrome.google.com/webstore/detail/raptor-explorer"
+                href="https://chromewebstore.google.com/detail/raptor-explorer-car-renta/kcekmgedcdnjjfcklokfidemgjdanjpp"
                 target="_blank"
                 className="inline-flex items-center px-6 py-3 bg-[#593CFB] text-white font-medium rounded-lg hover:bg-[#593CFB]/90 transition duration-150 gap-2"
               >
@@ -360,7 +360,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col items-center gap-4">
               <a
-                href="https://chrome.google.com/webstore/detail/raptor-explorer"
+                href="https://chromewebstore.google.com/detail/raptor-explorer-car-renta/kcekmgedcdnjjfcklokfidemgjdanjpp"
                 target="_blank"
                 className="inline-flex items-center px-8 py-4 bg-[#593CFB] text-white font-medium rounded-lg hover:bg-[#593CFB]/90 transition duration-150 gap-2"
               >
