@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect, useState } from 'react';
 import { Chrome, BarChart2, Car, Zap, Crown, DollarSign, TrendingUp, Search, Shield, CreditCard, CheckCircle, BookOpen } from "lucide-react";
 import Header from "./components/Header";
-import { firebaseApp } from './firebase';
 import Image from 'next/image';
 import Link from 'next/link';
 
