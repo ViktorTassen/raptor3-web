@@ -12,6 +12,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Raptor Explorer - Car data analytics for Turo",
   description: "Turo Analytics - Find profitable cars to list on Turo. Do Your Own Research - easily scrape data from Turo, download CSV and make smarter financial decisions. Forecast your ROI on Turo",
+  icons: "/favicon.ico",
 };
 
 export default function RootLayout({
